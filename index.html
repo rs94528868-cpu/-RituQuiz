@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RituQuiz – Practice Today, Crack Tomorrow</title>
+  <meta name="theme-color" content="#1a1440">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ==================== DASHBOARD / HOME ==================== -->
+  <div class="page active" id="pageHome">
+    <div class="home-topbar">
+      <div class="topbar-left">
+        <span class="brand-sm">RituQuiz</span>
+        <span class="brand-tagline">Practice Today, Crack Tomorrow</span>
+        <span class="brand-tagline-hi">रोज़ अभ्यास, पक्की सफलता</span>
+      </div>
+      <div class="topbar-right">
+        <span class="coin-display" id="coinDisplay">🪙 0</span>
+        <span class="streak-display" id="streakDisplay">🔥 0</span>
+      </div>
+    </div>
+    <div class="page-scroll">
+      <div class="home-welcome">
+        <div class="welcome-icon">📚</div>
+        <h1 class="welcome-title">RituQuiz</h1>
+        <p class="welcome-sub-en">Practice Today, Crack Tomorrow</p>
+        <p class="welcome-sub" id="welcomeSub">रोज़ अभ्यास, पक्की सफलता</p>
+      </div>
+
+      <!-- Profile / Level Card -->
+      <div class="profile-card" id="profileCard">
+        <div class="profile-top">
+          <div class="profile-level-badge" id="profileLevelBadge">1</div>
+          <div class="profile-info">
+            <span class="profile-level-title" id="profileLevelTitle">Beginner</span>
+            <span class="profile-xp-label" id="profileXpLabel">0 / 100 XP</span>
+          </div>
+          <span class="profile-theme-btn" id="themeShopBtn" title="Theme Shop">🎨</span>
+        </div>
+        <div class="xp-bar-track">
+          <div class="xp-bar-fill" id="xpBarFill"></div>
+        </div>
+        <div class="profile-badges" id="profileBadges"></div>
+      </div>
+
+      <!-- Daily Engagement Section -->
+      <div class="section-header">
+        <h2>🔥 Daily Engagement</h2>
+      </div>
+      <div class="daily-engagement">
+        <!-- Daily Login Reward -->
+        <div class="daily-card" id="rewardCard">
+          <div class="daily-card-left">
+            <span class="daily-icon">🎁</span>
+            <div>
+              <span class="daily-label">Daily Login Reward</span>
+              <span class="daily-sub" id="rewardSub">Claim +10 🪙</span>
+            </div>
+          </div>
+          <button class="daily-action" id="claimRewardBtn">Claim</button>
+        </div>
+
+        <!-- 7-Day Streak Progress -->
+        <div class="streak-bar-cont">
+          <div class="streak-bar-header">
+            <span>🔥 <span id="currentStreak">0</span>-day streak</span>
+            <span class="streak-max">Best: <span id="maxStreak">0</span></span>
+          </div>
+          <div class="streak-bar">
+            <div class="streak-fill" id="streakFill"></div>
+            <div class="streak-milestone" style="left:23.3%">🎯7</div>
+            <div class="streak-milestone" style="left:100%">🏆30</div>
+          </div>
+        </div>
+
+        <!-- Daily 10 Questions Challenge -->
+        <div class="daily-card" id="dailyChallengeCard">
+          <div class="daily-card-left">
+            <span class="daily-icon">📅</span>
+            <div>
+              <span class="daily-label">Daily 10 Questions Challenge</span>
+              <span class="daily-sub" id="dailyChallengeSub">+5 🪙 per correct answer</span>
+            </div>
+          </div>
+          <button class="daily-action" id="dailyChallengeBtn">Start</button>
+        </div>
+
+        <!-- Question of the Day -->
+        <div class="qotd-card" id="qotdCard">
+          <div class="qotd-header">
+            <span class="qotd-icon">⭐</span>
+            <span class="qotd-title">Question of the Day</span>
+            <span class="qotd-reward">+15 🪙</span>
+          </div>
+          <p class="qotd-question" id="qotdQuestion">Loading...</p>
+          <div class="qotd-options" id="qotdOptions"></div>
+          <div class="qotd-feedback" id="qotdFeedback" style="display:none;">
+            <span class="qotd-fb-icon" id="qotdFbIcon"></span>
+            <span class="qotd-fb-text" id="qotdFbText"></span>
+          </div>
+        </div>
+
+        <!-- Surprise Quiz -->
+        <div class="daily-card" id="surpriseCard">
+          <div class="daily-card-left">
+            <span class="daily-icon">🎲</span>
+            <div>
+              <span class="daily-label">Daily Surprise Quiz</span>
+              <span class="daily-sub" id="surpriseSub">5 random questions +20 🪙 bonus</span>
+            </div>
+          </div>
+          <button class="daily-action" id="surpriseBtn">Play</button>
+        </div>
+      </div>
+
+      <!-- Smart Learning Section -->
+      <div class="section-header">
+        <h2>🧠 Smart Learning</h2>
+      </div>
+      <div class="daily-engagement">
+        <!-- Revision Reminder -->
+        <div class="daily-card" id="revisionReminder" style="display:none;">
+          <div class="daily-card-left">
+            <span class="daily-icon">⏰</span>
+            <div>
+              <span class="daily-label">Time to Revise!</span>
+              <span class="daily-sub" id="revisionSub">You haven't practiced today</span>
+            </div>
+          </div>
+          <button class="daily-action" id="revisionBtn">Start</button>
+        </div>
+
+        <!-- Personalized Quiz -->
+        <div class="daily-card" id="personalizedCard">
+          <div class="daily-card-left">
+            <span class="daily-icon">🎯</span>
+            <div>
+              <span class="daily-label">Personalized Quiz</span>
+              <span class="daily-sub" id="personalizedSub">Based on your weak topics</span>
+            </div>
+          </div>
+          <button class="daily-action" id="personalizedBtn">Go</button>
+        </div>
+
+        <!-- Spaced Repetition -->
+        <div class="daily-card" id="spacedCard">
+          <div class="daily-card-left">
+            <span class="daily-icon">🔄</span>
+            <div>
+              <span class="daily-label">Spaced Repetition</span>
+              <span class="daily-sub" id="spacedSub">Review due questions</span>
+            </div>
+          </div>
+          <button class="daily-action" id="spacedBtn">Review</button>
+        </div>
+
+        <!-- Weak Topics -->
+        <div class="streak-bar-cont" id="weakTopicsBox">
+          <div class="streak-bar-header">
+            <span>📊 Weak Topics</span>
+            <span class="streak-max" id="weakTopicsSub">Practice what you struggle with</span>
+          </div>
+          <div id="weakTopicsList" style="margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>🎲 Fun Modes</h2>
+      </div>
+      <div class="daily-engagement">
+        <div class="daily-card" id="mode1minBtn">
+          <div class="daily-card-left">
+            <span class="daily-icon">⏱️</span>
+            <div><span class="daily-label">1 Minute Quiz</span><span class="daily-sub">Answer max in 60s</span></div>
+          </div>
+          <button class="daily-action">Play</button>
+        </div>
+        <div class="daily-card" id="modeSurvivalBtn">
+          <div class="daily-card-left">
+            <span class="daily-icon">💀</span>
+            <div><span class="daily-label">Survival Mode</span><span class="daily-sub">1 wrong = game over</span></div>
+          </div>
+          <button class="daily-action">Play</button>
+        </div>
+        <div class="daily-card" id="modeRapidBtn">
+          <div class="daily-card-left">
+            <span class="daily-icon">🔥</span>
+            <div><span class="daily-label">Rapid Fire</span><span class="daily-sub">20Q in 60 seconds</span></div>
+          </div>
+          <button class="daily-action">Play</button>
+        </div>
+        <div class="daily-card" id="modeMarathonBtn">
+          <div class="daily-card-left">
+            <span class="daily-icon">🏃</span>
+            <div><span class="daily-label">Marathon</span><span class="daily-sub">100 questions challenge</span></div>
+          </div>
+          <button class="daily-action">Go</button>
+        </div>
+        <div class="daily-card" id="modeLuckyBtn">
+          <div class="daily-card-left">
+            <span class="daily-icon">🍀</span>
+            <div><span class="daily-label">Lucky Quiz</span><span class="daily-sub">Random surprise quiz</span></div>
+          </div>
+          <button class="daily-action">Spin</button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>👥 Social</h2>
+      </div>
+      <div class="quick-actions">
+        <button class="action-card" id="referralHomeBtn">
+          <span class="action-icon">🔗</span>
+          <div class="action-info">
+            <span class="action-label">Referral Rewards</span>
+            <span class="action-sub">Invite friends, earn coins</span>
+          </div>
+          <span class="action-arrow">→</span>
+        </button>
+      </div>
+      <div class="quick-actions">
+        <button class="action-card" id="battleHomeBtn">
+          <span class="action-icon">⚔️</span>
+          <div class="action-info">
+            <span class="action-label">Battle Mode</span>
+            <span class="action-sub">Challenge a friend & win rewards</span>
+          </div>
+          <span class="action-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="quick-actions">
+        <button class="action-card" id="continueBtn" style="display:none;">
+          <span class="action-icon">🔥</span>
+          <div class="action-info">
+            <span class="action-label">Continue Practice</span>
+            <span class="action-sub" id="continueSub">Resume your last session</span>
+          </div>
+          <span class="action-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2>📚 Subjects</h2>
+      </div>
+      <div class="subject-grid" id="homeSubjectGrid"></div>
+
+      <div class="section-header">
+        <h2>📊 Quick Stats</h2>
+      </div>
+      <div class="stats-row" id="homeStats">
+        <div class="stat-card"><span class="stat-num" id="statTotalQ">0</span><span class="stat-lbl">Total Qs</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCorrect">0</span><span class="stat-lbl">Correct</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCoins">0</span><span class="stat-lbl">Coins</span></div>
+        <div class="stat-card"><span class="stat-num" id="statBookmarks">0</span><span class="stat-lbl">Bookmarks</span></div>
+      </div>
+
+      <!-- Today's Rank -->
+      <div class="section-header">
+        <h2>📊 Today's Rank</h2>
+      </div>
+      <div class="rank-card">
+        <div class="rank-main-row">
+          <div class="rank-stat">
+            <span class="rank-num" id="todayAnswered">0</span>
+            <span class="rank-lbl">Questions Today</span>
+          </div>
+          <div class="rank-stat">
+            <span class="rank-num" id="todayCorrectPct">0%</span>
+            <span class="rank-lbl">Accuracy</span>
+          </div>
+          <div class="rank-stat">
+            <span class="rank-num" id="todayRankChange">⬆️ 0</span>
+            <span class="rank-lbl">vs Yesterday</span>
+          </div>
+        </div>
+        <div class="rank-sub-row">
+          <div class="rank-badge">
+            <span class="rank-badge-icon">🏙️</span>
+            <div>
+              <span class="rank-badge-label">City Rank</span>
+              <span class="rank-badge-num" id="cityRank"># --</span>
+            </div>
+          </div>
+          <div class="rank-badge">
+            <span class="rank-badge-icon">🇮🇳</span>
+            <div>
+              <span class="rank-badge-label">India Rank</span>
+              <span class="rank-badge-num" id="indiaRank"># --</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SUBJECTS ==================== -->
+  <div class="page" id="pageSubjects">
+    <div class="page-header">
+      <h1>📚 Subjects</h1>
+    </div>
+    <div class="page-scroll">
+      <div class="subject-list" id="subjectList"></div>
+    </div>
+  </div>
+
+  <!-- ==================== QUIZ SCREEN ==================== -->
+  <div class="page" id="pageQuiz">
+    <div class="quiz-header">
+      <button class="nav-back" id="quizBackBtn">←</button>
+      <div class="quiz-meta">
+        <span class="quiz-subject-badge" id="quizSubjectBadge">Science</span>
+        <span class="quiz-difficulty-badge" id="quizDifficultyBadge">Easy</span>
+      </div>
+      <div class="quiz-counter" id="quizCounter">1/10</div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-track-fill" id="quizProgressFill"></div>
+    </div>
+
+    <div class="timer-track">
+      <div class="timer-track-fill" id="quizTimerFill"></div>
+    </div>
+    <div class="timer-num" id="quizTimerText">15s</div>
+    <div class="quiz-mode-badge" id="quizModeBadge"></div>
+    <div class="quiz-lives" id="quizLives"></div>
+
+    <div class="quiz-body">
+      <div class="question-num" id="quizQNum">Question 1</div>
+      <p class="question-text" id="quizQuestionText">Loading...</p>
+      <div class="options" id="quizOptions"></div>
+
+      <div class="quiz-feedback" id="quizFeedback">
+        <span class="fb-icon" id="quizFbIcon"></span>
+        <span class="fb-text" id="quizFbText"></span>
+        <div class="fb-explain" id="quizFbExplain"></div>
+      </div>
+
+      <div class="quiz-actions">
+        <button class="btn-bookmark" id="bookmarkBtn">☆ Bookmark</button>
+        <button class="btn-next" id="quizNextBtn" style="display:none;">Next →</button>
+      </div>
+    </div>
+
+    <div class="quiz-scorebar">
+      <span>Score: <strong id="quizScore">0</strong></span>
+      <span>✅ <strong id="quizCorrect">0</strong></span>
+      <span>❌ <strong id="quizWrong">0</strong></span>
+    </div>
+  </div>
+
+  <!-- ==================== LEADERBOARD ==================== -->
+  <div class="page" id="pageLeaderboard">
+    <div class="page-header">
+      <h1>🏆 Leaderboard</h1>
+    </div>
+    <div class="page-scroll">
+      <div class="lb-form">
+        <input type="text" id="lbNameInput" placeholder="Your name" maxlength="20">
+        <input type="text" id="lbCollegeInput" placeholder="College (optional)" maxlength="30">
+        <input type="text" id="lbCityInput" placeholder="City (optional)" maxlength="20">
+        <button class="btn-sm" id="lbSaveBtn">Save Score</button>
+      </div>
+      <div class="lb-filters">
+        <button class="lb-filter active" data-filter="all">All</button>
+        <button class="lb-filter" data-filter="weekly">This Week</button>
+        <button class="lb-filter" data-filter="college">My College</button>
+        <button class="lb-filter" data-filter="city">My City</button>
+      </div>
+      <div class="lb-list" id="lbList"></div>
+    </div>
+  </div>
+
+  <!-- ==================== PROGRESS ==================== -->
+  <div class="page" id="pageProgress">
+    <div class="page-header">
+      <h1>📊 My Progress</h1>
+    </div>
+    <div class="page-scroll">
+      <div class="progress-summary" id="progressSummary"></div>
+      <div class="progress-subjects" id="progressSubjects"></div>
+      <button class="btn-sm btn-danger" id="resetProgressBtn" style="margin-top:16px;">Reset All Progress</button>
+    </div>
+  </div>
+
+  <!-- ==================== WRONG QUESTIONS ==================== -->
+  <div class="page" id="pageWrong">
+    <div class="page-header">
+      <h1>❌ Wrong Questions</h1>
+      <span class="badge-count" id="wrongCount">0</span>
+    </div>
+    <div class="page-scroll">
+      <div id="wrongList"></div>
+      <button class="btn-sm btn-danger" id="clearWrongBtn" style="margin-top:16px;display:none;">Clear All</button>
+    </div>
+  </div>
+
+  <!-- ==================== BOOKMARKS ==================== -->
+  <div class="page" id="pageBookmarks">
+    <div class="page-header">
+      <h1>⭐ Bookmarks</h1>
+      <span class="badge-count" id="bookmarkCount">0</span>
+    </div>
+    <div class="page-scroll">
+      <div id="bookmarkList"></div>
+    </div>
+  </div>
+
+  <!-- ==================== BOTTOM NAV ==================== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-item active" data-page="pageHome">🏠<span>Home</span></button>
+    <button class="nav-item" data-page="pageSubjects">📚<span>Subjects</span></button>
+    <button class="nav-item" data-page="pageLeaderboard">🏆<span>Leaderboard</span></button>
+    <button class="nav-item" data-page="pageProgress">📊<span>Progress</span></button>
+    <button class="nav-item" data-page="pageWrong">❌<span>Wrong</span></button>
+    <button class="nav-item" data-page="pageBookmarks">⭐<span>Bookmarks</span></button>
+  </nav>
+
+  <!-- ==================== QUIZ START OVERLAY ==================== -->
+  <div class="overlay" id="quizOverlay" style="display:none;">
+    <div class="overlay-content">
+      <h2 id="overlayTitle">Start Quiz</h2>
+      <p id="overlayDesc">Select how many questions to practice</p>
+      <div class="qcount-options" id="qcountOptions">
+        <button class="qcount-btn" data-count="10">10</button>
+        <button class="qcount-btn" data-count="25">25</button>
+        <button class="qcount-btn active" data-count="50">50</button>
+        <button class="qcount-btn" data-count="100">100</button>
+        <button class="qcount-btn" data-count="0">All</button>
+      </div>
+      <button class="btn-primary" id="overlayStartBtn">Start</button>
+      <button class="btn-ghost" id="overlayCloseBtn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ==================== THEME SHOP OVERLAY ==================== -->
+  <div class="overlay" id="themeOverlay" style="display:none;">
+    <div class="overlay-content shop-content">
+      <h2>🎨 Theme Shop</h2>
+      <p>Spend coins to unlock new themes</p>
+      <div class="theme-list" id="themeList"></div>
+      <button class="btn-ghost" id="themeCloseBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ==================== CHALLENGE OVERLAY ==================== -->
+  <div class="overlay" id="challengeOverlay" style="display:none;">
+    <div class="overlay-content">
+      <h2>👥 Friend Challenge</h2>
+      <div id="challengeBody">
+        <p id="challengeDesc">Challenge a friend to beat your score!</p>
+        <div class="challenge-code-box" id="challengeCodeBox" style="display:none;">
+          <div class="challenge-code" id="challengeCode">RITU-XXXX</div>
+          <button class="btn-sm" id="shareChallengeBtn">📤 Share</button>
+        </div>
+        <div class="challenge-input-box">
+          <input type="text" id="challengeInput" placeholder="Enter challenge code" maxlength="12">
+          <button class="btn-sm" id="acceptChallengeBtn">Accept</button>
+        </div>
+        <div id="challengeResult"></div>
+      </div>
+      <button class="btn-ghost" id="challengeCloseBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ==================== REFERRAL OVERLAY ==================== -->
+  <div class="overlay" id="referralOverlay" style="display:none;">
+    <div class="overlay-content">
+      <h2>🔗 Referral Rewards</h2>
+      <p>Invite friends and earn coins!</p>
+      <div class="referral-info">
+        <div class="referral-code-box">
+          <span class="referral-label">Your Code</span>
+          <div class="referral-code" id="referralCode">RITUREF-XXXX</div>
+          <button class="btn-sm" id="shareReferralBtn">📤 Share</button>
+        </div>
+        <div class="referral-input-box">
+          <span class="referral-label">Enter Friend's Code</span>
+          <div class="referral-input-row">
+            <input type="text" id="referralInput" placeholder="Referral code" maxlength="12">
+            <button class="btn-sm" id="redeemReferralBtn">+10 🪙</button>
+          </div>
+        </div>
+        <div id="referralResult"></div>
+      </div>
+      <button class="btn-ghost" id="referralCloseBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ==================== BATTLE MODE OVERLAY ==================== -->
+  <div class="overlay" id="battleOverlay" style="display:none;">
+    <div class="overlay-content">
+      <h2>⚔️ Battle Mode</h2>
+      <div id="battleBody">
+        <div id="battleCreateBox">
+          <p id="battleCreateDesc">Create a battle and challenge a friend!</p>
+          <div class="challenge-code-box" id="battleCodeBox" style="display:none;">
+            <div class="challenge-code" id="battleCode">BAT-XXXX</div>
+            <button class="btn-sm" id="shareBattleBtn">📤 Share</button>
+          </div>
+          <button class="btn-primary" id="createBattleBtn">⚔️ Create Battle</button>
+        </div>
+        <div class="challenge-input-box">
+          <input type="text" id="battleInput" placeholder="Enter battle code" maxlength="12">
+          <button class="btn-sm" id="acceptBattleBtn">Accept Battle</button>
+        </div>
+        <div id="battleResult"></div>
+      </div>
+      <button class="btn-ghost" id="battleCloseBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ==================== LOADING ==================== -->
+  <div class="overlay" id="loadingOverlay" style="display:none;">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading questions...</div>
+  </div>
+
+</div>
+
+<script src="subjects/science.js"></script>
+<script src="subjects/history.js"></script>
+<script src="subjects/geography.js"></script>
+<script src="subjects/economics.js"></script>
+<script src="subjects/polity.js"></script>
+<script src="subjects/gk.js"></script>
+<script src="app.js"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
+</body>
+</html>
