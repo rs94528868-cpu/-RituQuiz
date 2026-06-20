@@ -67,8 +67,10 @@ body{
 .brand-tagline{font-size:0.65rem;color:var(--text3);display:block;margin-top:-1px;}
 .brand-tagline-hi{font-size:0.6rem;color:var(--text3);display:block;opacity:0.7;}
 .topbar-right{display:flex;gap:12px;align-items:center;}
-.coin-display,.streak-display{font-size:0.82rem;font-weight:700;padding:4px 10px;border-radius:50px;background:rgba(255,255,255,0.06);border:1px solid var(--border);}
+.coin-display,.streak-display,.install-btn{font-size:0.82rem;font-weight:700;padding:4px 10px;border-radius:50px;background:rgba(255,255,255,0.06);border:1px solid var(--border);}
 .streak-display{color:#ff6b35;}
+.install-btn{cursor:pointer;transition:all 0.25s;font-size:1rem;padding:4px 8px;}
+.install-btn:hover{background:rgba(247,151,30,0.2);border-color:#f7971e;}
 .coin-display{color:var(--gold);}
 
 .home-welcome{text-align:center;padding:16px 0 8px;}

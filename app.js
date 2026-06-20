@@ -526,6 +526,7 @@ function renderThemeShop(){
 }
 
 $('themeShopBtn').addEventListener('click',()=>{$('themeOverlay').style.display='flex';renderThemeShop();});
+$('installBtn').addEventListener('click',()=>{if(confirm('📲 Install RituQuiz on your phone?\n\nOpen install guide →'))window.open('install.html','_blank');});
 $('themeCloseBtn').addEventListener('click',()=>$('themeOverlay').style.display='none');
 
 $('continueBtn').addEventListener('click',()=>{
