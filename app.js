@@ -1,11 +1,11 @@
 /* ============ DATA ============ */
 const SUBJECTS = {
-  science:{icon:"🔬",label:"Science",qs:window.SCIENCE_QUESTIONS||[],desc:"Physics, Chemistry, Biology"},
-  history:{icon:"📜",label:"History",qs:window.HISTORY_QUESTIONS||[],desc:"Indian & World History"},
-  geography:{icon:"🌍",label:"Geography",qs:window.GEOGRAPHY_QUESTIONS||[],desc:"Maps, Climate, Landforms"},
-  economics:{icon:"💰",label:"Economics",qs:window.ECONOMICS_QUESTIONS||[],desc:"Economy, Finance, Budget"},
-  polity:{icon:"🏛️",label:"Polity",qs:window.POLITY_QUESTIONS||[],desc:"Politics, Governance"},
-  gk:{icon:"🧠",label:"General Knowledge",qs:window.GK_QUESTIONS||[],desc:"Mixed GK & Current Affairs"},
+  science:{icon:"🔬",label:"Science",qs:window.SCIENCE_QUESTIONS||[],count:1000,desc:"Physics, Chemistry, Biology"},
+  history:{icon:"📜",label:"History",qs:window.HISTORY_QUESTIONS||[],count:1000,desc:"Indian & World History"},
+  geography:{icon:"🌍",label:"Geography",qs:window.GEOGRAPHY_QUESTIONS||[],count:1000,desc:"Maps, Climate, Landforms"},
+  economics:{icon:"💰",label:"Economics",qs:window.ECONOMICS_QUESTIONS||[],count:1000,desc:"Economy, Finance, Budget"},
+  polity:{icon:"🏛️",label:"Polity",qs:window.POLITY_QUESTIONS||[],count:1000,desc:"Politics, Governance"},
+  gk:{icon:"🧠",label:"General Knowledge",qs:window.GK_QUESTIONS||[],count:1000,desc:"Mixed GK & Current Affairs"},
 };
 
 const STORE = {
@@ -105,7 +105,7 @@ function refreshHome(){
     c.className='home-subj-card';
     const sp=p[k]||{};
     const done=(sp.correct||0)+(sp.wrong||0);
-    const totalQ=v.qs?v.qs.length:0;
+    const totalQ=v.count||(v.qs?v.qs.length:0);
     c.innerHTML=`<span class="subj-icon">${v.icon}</span><span class="subj-name">${v.label}</span><span class="subj-stat">${done>0?done+' done':totalQ+' Q'}</span>`;
     c.addEventListener('click',()=>startQuiz(k));
     grid.appendChild(c);
@@ -327,7 +327,11 @@ function startDailyChallenge(){
   if(d.dailyChallengeDone){alert('Daily challenge already completed!');return;}
   let pool=[];
   Object.values(SUBJECTS).forEach(v=>{pool=pool.concat(v.qs);});
-  pool=shuffle(pool);
+  /* Seeded shuffle based on date — same questions all day, change daily */
+  const seed=new Date().toDateString().split(' ').slice(1).join('');
+  let seedNum=0;for(let i=0;i<seed.length;i++)seedNum=seedNum*31+seed.charCodeAt(i);
+  function seededRandom(){seedNum=(seedNum*9301+49297)%233280;return seedNum/233280;}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(seededRandom()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
   quizQuestions=pool.slice(0,10);
   quizIndex=0;quizScore=0;quizCorrect=0;quizWrong=0;
   quizSubject=null;quizMode='dailyChallenge';
@@ -548,7 +552,7 @@ function renderSubjects(){
     c.className='subj-list-card';
     const sp=p[k]||{};
     const done=(sp.correct||0)+(sp.wrong||0);
-    const totalQ=v.qs?v.qs.length:0;
+    const totalQ=v.count||(v.qs?v.qs.length:0);
     c.innerHTML=`<span class="subj-icon">${v.icon}</span>
       <div class="subj-info"><span class="subj-name">${v.label}</span><span class="subj-desc">${v.desc} • ${done}/${totalQ} done</span></div>
       <span class="subj-arrow">→</span>`;
